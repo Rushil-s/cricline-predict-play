@@ -35,7 +35,7 @@ export default function Index() {
             status: "live",
             match_type: "T20",
             venue: "Wankhede Stadium, Mumbai",
-            date: new Date(),
+            date: new Date().toISOString(), // current date as string
             team_a: "Mumbai Indians",
             team_b: "Chennai Super Kings",
             score: {
@@ -51,7 +51,7 @@ export default function Index() {
             status: "upcoming",
             match_type: "T20",
             venue: "M. Chinnaswamy Stadium, Bangalore",
-            date: new Date(Date.now() + 86400000), // tomorrow
+            date: new Date(Date.now() + 86400000).toISOString(), // tomorrow as string
             team_a: "Royal Challengers",
             team_b: "Kolkata Knight Riders",
             fantasy_enabled: true
@@ -63,7 +63,7 @@ export default function Index() {
             status: "upcoming",
             match_type: "T20",
             venue: "Arun Jaitley Stadium, Delhi",
-            date: new Date(Date.now() + 172800000), // day after tomorrow
+            date: new Date(Date.now() + 172800000).toISOString(), // day after tomorrow as string
             team_a: "Delhi Capitals",
             team_b: "Rajasthan Royals",
             fantasy_enabled: true
@@ -75,7 +75,7 @@ export default function Index() {
             status: "upcoming",
             match_type: "ODI",
             venue: "Melbourne Cricket Ground, Australia",
-            date: new Date(Date.now() + 259200000), // 3 days from now
+            date: new Date(Date.now() + 259200000).toISOString(), // 3 days from now as string
             team_a: "India",
             team_b: "Australia",
             fantasy_enabled: true

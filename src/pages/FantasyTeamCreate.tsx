@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MainLayout } from "@/components/layout/main-layout";
@@ -51,7 +52,7 @@ export default function FantasyTeamCreate() {
           status: "upcoming",
           match_type: "T20",
           venue: "Wankhede Stadium, Mumbai",
-          date: new Date(Date.now() + 86400000), // tomorrow
+          date: new Date(Date.now() + 86400000).toISOString(), // tomorrow as string
           team_a: "Mumbai Indians",
           team_b: "Chennai Super Kings",
           fantasy_enabled: true
