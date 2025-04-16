@@ -5,7 +5,7 @@ import { MainLayout } from "@/components/layout/main-layout";
 import { MatchCard } from "@/components/cricket/match-card";
 import { Button } from "@/components/ui/button";
 import { Match } from "@/types";
-import { cricketApi } from "@/services/api";
+import { matchService } from "@/services/api";
 import { useAuth } from "@/hooks/use-auth";
 import { Skeleton } from "@/components/ui/skeleton";
 import { 

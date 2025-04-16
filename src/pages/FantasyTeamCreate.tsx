@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { TeamLogo } from "@/components/ui/team-logo";
 import { Player, Match } from "@/types";
 import { useAuth } from "@/hooks/use-auth";
-import { cricketApi } from "@/services/api";
+import { matchService, playerService } from "@/services/api";
 import { fantasyService } from "@/services/supabase";
 import { toast } from "sonner";
 import { AlertCircle, Trophy, CheckCircle2 } from "lucide-react";
