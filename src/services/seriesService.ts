@@ -17,18 +17,24 @@ export const seriesService = {
       {
         id: "ipl-2023",
         name: "Indian Premier League 2023",
-        startDate: "2023-03-31",
-        endDate: "2023-05-28",
+        start_date: "2023-03-31",
+        end_date: "2023-05-28",
         matches: 74,
-        status: "ongoing"
+        odi: 0,
+        t20: 74,
+        test: 0,
+        squads: 10
       },
       {
         id: "wc-2023",
         name: "ICC Cricket World Cup 2023",
-        startDate: "2023-10-05",
-        endDate: "2023-11-19",
+        start_date: "2023-10-05",
+        end_date: "2023-11-19",
         matches: 48,
-        status: "upcoming"
+        odi: 48,
+        t20: 0,
+        test: 0,
+        squads: 10
       }
     ];
     

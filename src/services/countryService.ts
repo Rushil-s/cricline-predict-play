@@ -12,27 +12,32 @@ export const countryService = {
       {
         id: "c1",
         name: "India",
-        flag: "https://example.com/flags/india.png"
+        generic_flag: "https://example.com/flags/india.png",
+        fanart_flag: "https://example.com/flags/india-fanart.png"
       },
       {
         id: "c2",
         name: "Australia",
-        flag: "https://example.com/flags/australia.png"
+        generic_flag: "https://example.com/flags/australia.png",
+        fanart_flag: "https://example.com/flags/australia-fanart.png"
       },
       {
         id: "c3",
         name: "England",
-        flag: "https://example.com/flags/england.png"
+        generic_flag: "https://example.com/flags/england.png",
+        fanart_flag: "https://example.com/flags/england-fanart.png"
       },
       {
         id: "c4",
         name: "New Zealand",
-        flag: "https://example.com/flags/newzealand.png"
+        generic_flag: "https://example.com/flags/newzealand.png",
+        fanart_flag: "https://example.com/flags/newzealand-fanart.png"
       },
       {
         id: "c5",
         name: "Pakistan",
-        flag: "https://example.com/flags/pakistan.png"
+        generic_flag: "https://example.com/flags/pakistan.png",
+        fanart_flag: "https://example.com/flags/pakistan-fanart.png"
       }
     ];
     

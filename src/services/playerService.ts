@@ -28,24 +28,24 @@ export const playerService = {
         name: "Virat Kohli",
         country: "India",
         role: "Batsman",
-        battingStyle: "Right Handed",
-        bowlingStyle: "Right-arm medium",
+        batting_style: "Right Handed",
+        bowling_style: "Right-arm medium",
       },
       {
         id: "p2",
         name: "Jasprit Bumrah",
         country: "India",
         role: "Bowler",
-        battingStyle: "Right Handed",
-        bowlingStyle: "Right-arm fast",
+        batting_style: "Right Handed",
+        bowling_style: "Right-arm fast",
       },
       {
         id: "p3",
         name: "Kane Williamson",
         country: "New Zealand",
         role: "Batsman",
-        battingStyle: "Right Handed",
-        bowlingStyle: "Right-arm off break",
+        batting_style: "Right Handed",
+        bowling_style: "Right-arm off break",
       }
     ];
     
