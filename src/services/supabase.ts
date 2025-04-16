@@ -1,15 +1,7 @@
-
 import { createClient } from "@supabase/supabase-js";
 import { User, FantasyTeam, Prediction, LeaderboardEntry, FantasyScore } from "@/types";
 import { toast } from "sonner";
-
-// Note: In a real application, these would be environment variables
-// For this demo, we're temporarily hardcoding them
-// This isn't a production-ready approach - it's just for demonstration
-const SUPABASE_URL = "YOUR_SUPABASE_URL"; // Replace with actual Supabase URL when connected
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY"; // Replace with actual anon key when connected
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+import { supabase } from "@/integrations/supabase/client";
 
 // Auth Services
 export const authService = {
