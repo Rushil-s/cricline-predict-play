@@ -32,6 +32,21 @@ export default {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'
 				},
+				cricblue: {
+					DEFAULT: '#1EAEDB',
+					light: '#33C3F0',
+					dark: '#0FA0CE',
+					50: '#E6F7FC',
+					100: '#CCF0F9',
+					200: '#99E0F3',
+					300: '#66D1ED',
+					400: '#33C1E7',
+					500: '#1EAEDB',
+					600: '#198BB0',
+					700: '#146888',
+					800: '#0F4660',
+					900: '#072330'
+				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))'
