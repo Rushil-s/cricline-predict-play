@@ -76,13 +76,18 @@ export async function fetchFromApi<T>(
     });
 
     if (!response.ok) {
+      console.error(`API Error: ${response.status} - ${response.statusText}`);
       throw new Error(`API Error: ${response.status} - ${response.statusText}`);
     }
 
     const result = await response.json();
     
+    // Debug log what we got from the API
+    console.log(`API response for ${endpoint}:`, result);
+    
     if (result.status !== "success") {
-      throw new Error(`API Error: ${result.status} - ${result.info?.message || 'Unknown error'}`);
+      console.error(`API Error: ${result.status} - ${result.info || result.reason || 'Unknown error'}`);
+      throw new Error(`API Error: ${result.status} - ${result.info?.message || result.reason || 'Unknown error'}`);
     }
     
     // Store in cache if caching is enabled

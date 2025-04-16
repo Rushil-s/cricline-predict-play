@@ -15,8 +15,40 @@ export const playerService = {
   
   // Player details can be cached longer as they rarely change
   getPlayerInfo: (playerId: string) => fetchFromApi<Player>(
-    "/player_info", 
+    "/players_info", 
     { id: playerId }, 
     { ttlMinutes: 1440 } // Cache for 24 hours
   ),
+  
+  // Fallback method for demo/development
+  getMockPlayers: (): Promise<Player[]> => {
+    const mockPlayers: Player[] = [
+      {
+        id: "p1",
+        name: "Virat Kohli",
+        country: "India",
+        role: "Batsman",
+        battingStyle: "Right Handed",
+        bowlingStyle: "Right-arm medium",
+      },
+      {
+        id: "p2",
+        name: "Jasprit Bumrah",
+        country: "India",
+        role: "Bowler",
+        battingStyle: "Right Handed",
+        bowlingStyle: "Right-arm fast",
+      },
+      {
+        id: "p3",
+        name: "Kane Williamson",
+        country: "New Zealand",
+        role: "Batsman",
+        battingStyle: "Right Handed",
+        bowlingStyle: "Right-arm off break",
+      }
+    ];
+    
+    return Promise.resolve(mockPlayers);
+  }
 };
