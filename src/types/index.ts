@@ -13,7 +13,7 @@ export interface Player {
   role: string;
   batting_style?: string;
   bowling_style?: string;
-  dob?: Date;
+  dob?: string; // Changed from Date to string
   place_of_birth?: string;
 }
 
@@ -27,8 +27,8 @@ export interface Country {
 export interface Series {
   id: string;
   name: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string; // Changed from Date to string
+  end_date: string; // Changed from Date to string
   odi: number;
   t20: number;
   test: number;
@@ -43,8 +43,8 @@ export interface Match {
   status: 'upcoming' | 'live' | 'completed';
   match_type: 'T20' | 'ODI' | 'Test' | string;
   venue: string;
-  date: Date;
-  datetime_gmt?: Date;
+  date: string; // Changed from Date to string
+  datetime_gmt?: string; // Changed from Date to string
   team_a: string;
   team_b: string;
   score?: {
@@ -61,7 +61,7 @@ export interface FantasyTeam {
   match_id: string;
   captain_id: string;
   vice_captain_id: string;
-  created_at: Date;
+  created_at: string; // Changed from Date to string
   players?: Player[];
 }
 
@@ -96,7 +96,7 @@ export interface Prediction {
   is_correct: boolean;
   points_wagered: number;
   points_won: number;
-  created_at: Date;
+  created_at: string; // Changed from Date to string
 }
 
 // User Types
@@ -106,7 +106,7 @@ export interface User {
   username: string;
   cricpoints: number;
   xp_level: number;
-  created_at: Date;
+  created_at: string; // Changed from Date to string
 }
 
 export interface LeaderboardEntry {
