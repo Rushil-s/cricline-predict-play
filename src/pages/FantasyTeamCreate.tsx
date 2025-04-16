@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MainLayout } from "@/components/layout/main-layout";
@@ -43,50 +42,77 @@ export default function FantasyTeamCreate() {
         setIsLoading(true);
         if (!matchId) return;
 
-        // In a real implementation, we would fetch from the API
-        // For now, mock data
-        const mockMatch: Match = {
-          id: matchId,
-          series_id: "ipl-2023",
-          name: "Mumbai Indians vs Chennai Super Kings",
-          status: "upcoming",
-          match_type: "T20",
-          venue: "Wankhede Stadium, Mumbai",
-          date: new Date(Date.now() + 86400000).toISOString(), // tomorrow as string
-          team_a: "Mumbai Indians",
-          team_b: "Chennai Super Kings",
-          fantasy_enabled: true
-        };
+        // Try to fetch the real match data
+        let matchData: Match | null = null;
+        let playersData: Player[] = [];
+        
+        try {
+          // Fetch match info - consider it a live match for fresher data
+          matchData = await matchService.getMatchInfo(matchId, true);
+          
+          // Fetch players based on search for team names
+          if (matchData?.team_a && matchData?.team_b) {
+            const teamAPlayers = await playerService.searchPlayers(matchData.team_a);
+            const teamBPlayers = await playerService.searchPlayers(matchData.team_b);
+            
+            // Combine and remove duplicates
+            const allPlayers = [...teamAPlayers, ...teamBPlayers];
+            const uniquePlayerIds = new Set();
+            playersData = allPlayers.filter(player => {
+              if (uniquePlayerIds.has(player.id)) return false;
+              uniquePlayerIds.add(player.id);
+              return true;
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching real data:", error);
+          toast.error("Could not fetch match data from API, using mock data instead");
+          
+          // Fall back to mock data if API fails
+          matchData = {
+            id: matchId,
+            series_id: "ipl-2023",
+            name: "Mumbai Indians vs Chennai Super Kings",
+            status: "upcoming",
+            match_type: "T20",
+            venue: "Wankhede Stadium, Mumbai",
+            date: new Date(Date.now() + 86400000).toISOString(),
+            team_a: "Mumbai Indians",
+            team_b: "Chennai Super Kings",
+            fantasy_enabled: true
+          };
+          
+          // Use mock player data
+          playersData = [
+            // Batsmen
+            { id: "1", name: "Rohit Sharma", country: "India", role: "Batsman", batting_style: "Right Handed" },
+            { id: "2", name: "Ishan Kishan", country: "India", role: "Batsman", batting_style: "Left Handed" },
+            { id: "3", name: "Suryakumar Yadav", country: "India", role: "Batsman", batting_style: "Right Handed" },
+            { id: "4", name: "Ruturaj Gaikwad", country: "India", role: "Batsman", batting_style: "Right Handed" },
+            { id: "5", name: "Devon Conway", country: "New Zealand", role: "Batsman", batting_style: "Left Handed" },
+            { id: "6", name: "Ajinkya Rahane", country: "India", role: "Batsman", batting_style: "Right Handed" },
+            
+            // Bowlers
+            { id: "7", name: "Jasprit Bumrah", country: "India", role: "Bowler", bowling_style: "Right Arm Fast" },
+            { id: "8", name: "Piyush Chawla", country: "India", role: "Bowler", bowling_style: "Leg Break" },
+            { id: "9", name: "Deepak Chahar", country: "India", role: "Bowler", bowling_style: "Right Arm Medium" },
+            { id: "10", name: "Tushar Deshpande", country: "India", role: "Bowler", bowling_style: "Right Arm Medium Fast" },
+            { id: "11", name: "Matheesha Pathirana", country: "Sri Lanka", role: "Bowler", bowling_style: "Right Arm Fast" },
+            
+            // All-Rounders
+            { id: "12", name: "Hardik Pandya", country: "India", role: "All-Rounder" },
+            { id: "13", name: "Ravindra Jadeja", country: "India", role: "All-Rounder" },
+            { id: "14", name: "Moeen Ali", country: "England", role: "All-Rounder" },
+            { id: "15", name: "Shivam Dube", country: "India", role: "All-Rounder" },
+            
+            // Wicket-Keepers
+            { id: "16", name: "MS Dhoni", country: "India", role: "Wicket-Keeper" },
+            { id: "17", name: "Quinton de Kock", country: "South Africa", role: "Wicket-Keeper" }
+          ];
+        }
 
-        const mockPlayers: Player[] = [
-          // Batsmen
-          { id: "1", name: "Rohit Sharma", country: "India", role: "Batsman", batting_style: "Right Handed" },
-          { id: "2", name: "Ishan Kishan", country: "India", role: "Batsman", batting_style: "Left Handed" },
-          { id: "3", name: "Suryakumar Yadav", country: "India", role: "Batsman", batting_style: "Right Handed" },
-          { id: "4", name: "Ruturaj Gaikwad", country: "India", role: "Batsman", batting_style: "Right Handed" },
-          { id: "5", name: "Devon Conway", country: "New Zealand", role: "Batsman", batting_style: "Left Handed" },
-          { id: "6", name: "Ajinkya Rahane", country: "India", role: "Batsman", batting_style: "Right Handed" },
-          
-          // Bowlers
-          { id: "7", name: "Jasprit Bumrah", country: "India", role: "Bowler", bowling_style: "Right Arm Fast" },
-          { id: "8", name: "Piyush Chawla", country: "India", role: "Bowler", bowling_style: "Leg Break" },
-          { id: "9", name: "Deepak Chahar", country: "India", role: "Bowler", bowling_style: "Right Arm Medium" },
-          { id: "10", name: "Tushar Deshpande", country: "India", role: "Bowler", bowling_style: "Right Arm Medium Fast" },
-          { id: "11", name: "Matheesha Pathirana", country: "Sri Lanka", role: "Bowler", bowling_style: "Right Arm Fast" },
-          
-          // All-Rounders
-          { id: "12", name: "Hardik Pandya", country: "India", role: "All-Rounder" },
-          { id: "13", name: "Ravindra Jadeja", country: "India", role: "All-Rounder" },
-          { id: "14", name: "Moeen Ali", country: "England", role: "All-Rounder" },
-          { id: "15", name: "Shivam Dube", country: "India", role: "All-Rounder" },
-          
-          // Wicket-Keepers
-          { id: "16", name: "MS Dhoni", country: "India", role: "Wicket-Keeper" },
-          { id: "17", name: "Quinton de Kock", country: "South Africa", role: "Wicket-Keeper" }
-        ];
-
-        setMatch(mockMatch);
-        setPlayers(mockPlayers);
+        setMatch(matchData);
+        setPlayers(playersData);
       } catch (error) {
         console.error("Failed to fetch match details:", error);
         toast.error("Failed to load match details");

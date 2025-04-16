@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MainLayout } from "@/components/layout/main-layout";
@@ -15,6 +14,7 @@ import {
   ChevronRight, 
   Trophy 
 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Index() {
   const { user } = useAuth();
@@ -25,8 +25,97 @@ export default function Index() {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        // In a real implementation, we would call our API
-        // For now, let's create mock data
+        setIsLoading(true);
+        
+        // Get all current matches (this includes live matches)
+        const currentMatches = await matchService.getCurrentMatches();
+        
+        // Get all matches (for upcoming ones)
+        const allMatches = await matchService.getAllMatches();
+        
+        // Filter out live matches
+        const liveMatchesData = currentMatches.filter(match => 
+          match.status.toLowerCase().includes('live') || 
+          !match.status.toLowerCase().includes('complete')
+        );
+        
+        // Filter upcoming matches (not live and not completed)
+        const upcomingMatchesData = allMatches.filter(match => 
+          match.status.toLowerCase().includes('upcoming') || 
+          (match.status.toLowerCase().includes('start') && 
+           !match.status.toLowerCase().includes('complete') && 
+           !match.status.toLowerCase().includes('live'))
+        );
+        
+        // If no matches are found from the API, use mock data as fallback
+        if (liveMatchesData.length === 0 && upcomingMatchesData.length === 0) {
+          // Create mock data as fallback
+          const mockMatches: Match[] = [
+            {
+              id: "1",
+              series_id: "ipl-2023",
+              name: "Mumbai Indians vs Chennai Super Kings",
+              status: "live",
+              match_type: "T20",
+              venue: "Wankhede Stadium, Mumbai",
+              date: new Date().toISOString(),
+              team_a: "Mumbai Indians",
+              team_b: "Chennai Super Kings",
+              score: {
+                team_a: "120/4 (15.2 ov)",
+                team_b: "Yet to bat"
+              },
+              fantasy_enabled: true
+            },
+            {
+              id: "2",
+              series_id: "ipl-2023",
+              name: "Royal Challengers Bangalore vs Kolkata Knight Riders",
+              status: "upcoming",
+              match_type: "T20",
+              venue: "M. Chinnaswamy Stadium, Bangalore",
+              date: new Date(Date.now() + 86400000).toISOString(),
+              team_a: "Royal Challengers",
+              team_b: "Kolkata Knight Riders",
+              fantasy_enabled: true
+            },
+            {
+              id: "3",
+              series_id: "ipl-2023",
+              name: "Delhi Capitals vs Rajasthan Royals",
+              status: "upcoming",
+              match_type: "T20",
+              venue: "Arun Jaitley Stadium, Delhi",
+              date: new Date(Date.now() + 172800000).toISOString(),
+              team_a: "Delhi Capitals",
+              team_b: "Rajasthan Royals",
+              fantasy_enabled: true
+            },
+            {
+              id: "4",
+              series_id: "wc-2023",
+              name: "India vs Australia",
+              status: "upcoming",
+              match_type: "ODI",
+              venue: "Melbourne Cricket Ground, Australia",
+              date: new Date(Date.now() + 259200000).toISOString(),
+              team_a: "India",
+              team_b: "Australia",
+              fantasy_enabled: true
+            }
+          ];
+          
+          setLiveMatches(mockMatches.filter(match => match.status === 'live'));
+          setUpcomingMatches(mockMatches.filter(match => match.status === 'upcoming'));
+        } else {
+          setLiveMatches(liveMatchesData);
+          setUpcomingMatches(upcomingMatchesData.slice(0, 6)); // Limit to 6 upcoming matches
+        }
+      } catch (error) {
+        console.error("Failed to fetch matches:", error);
+        toast.error("Failed to fetch matches. Using mock data instead.");
+        
+        // Use mock data as fallback on error
         const mockMatches: Match[] = [
           {
             id: "1",
@@ -35,7 +124,7 @@ export default function Index() {
             status: "live",
             match_type: "T20",
             venue: "Wankhede Stadium, Mumbai",
-            date: new Date().toISOString(), // current date as string
+            date: new Date().toISOString(),
             team_a: "Mumbai Indians",
             team_b: "Chennai Super Kings",
             score: {
@@ -51,7 +140,7 @@ export default function Index() {
             status: "upcoming",
             match_type: "T20",
             venue: "M. Chinnaswamy Stadium, Bangalore",
-            date: new Date(Date.now() + 86400000).toISOString(), // tomorrow as string
+            date: new Date(Date.now() + 86400000).toISOString(),
             team_a: "Royal Challengers",
             team_b: "Kolkata Knight Riders",
             fantasy_enabled: true
@@ -63,7 +152,7 @@ export default function Index() {
             status: "upcoming",
             match_type: "T20",
             venue: "Arun Jaitley Stadium, Delhi",
-            date: new Date(Date.now() + 172800000).toISOString(), // day after tomorrow as string
+            date: new Date(Date.now() + 172800000).toISOString(),
             team_a: "Delhi Capitals",
             team_b: "Rajasthan Royals",
             fantasy_enabled: true
@@ -75,7 +164,7 @@ export default function Index() {
             status: "upcoming",
             match_type: "ODI",
             venue: "Melbourne Cricket Ground, Australia",
-            date: new Date(Date.now() + 259200000).toISOString(), // 3 days from now as string
+            date: new Date(Date.now() + 259200000).toISOString(),
             team_a: "India",
             team_b: "Australia",
             fantasy_enabled: true
@@ -84,8 +173,6 @@ export default function Index() {
         
         setLiveMatches(mockMatches.filter(match => match.status === 'live'));
         setUpcomingMatches(mockMatches.filter(match => match.status === 'upcoming'));
-      } catch (error) {
-        console.error("Failed to fetch matches:", error);
       } finally {
         setIsLoading(false);
       }
