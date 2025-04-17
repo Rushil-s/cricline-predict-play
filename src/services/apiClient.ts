@@ -1,12 +1,18 @@
 
-// This file is kept for backward compatibility but no longer handles direct API calls
-// All data is now fetched from Supabase database
+// This file is now only a placeholder as we've moved to using Supabase directly
+// All API calls should be done through the service files which use Supabase
 
-export const fetchFromApi = async <T>(
-  endpoint: string, 
-  params: Record<string, any> = {}, 
-  options: { ttlMinutes?: number } = {}
-): Promise<T> => {
-  console.warn('fetchFromApi is deprecated. Use Supabase services directly instead.');
-  throw new Error('Direct API calls are disabled. Use Supabase services instead.');
+export const apiClient = {
+  get: async () => {
+    throw new Error("Direct API calls are no longer supported. Use Supabase services instead.");
+  },
+  post: async () => {
+    throw new Error("Direct API calls are no longer supported. Use Supabase services instead.");
+  },
+  put: async () => {
+    throw new Error("Direct API calls are no longer supported. Use Supabase services instead.");
+  },
+  delete: async () => {
+    throw new Error("Direct API calls are no longer supported. Use Supabase services instead.");
+  }
 };
